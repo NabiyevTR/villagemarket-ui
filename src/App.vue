@@ -1,28 +1,58 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app id="inspire">
+    <v-app-bar app color="white" flat>
+      <v-container class="py-0 fill-height">
+
+        <!--Menu buttons-->
+
+        <v-row justify='end'>
+          <v-col >
+            <v-btn to="/" text>Products</v-btn>
+            <v-btn to="/" text>Blog</v-btn>
+          </v-col>
+          <v-col align="right">
+            <v-btn   to="/cart" text>Cart</v-btn>
+          </v-col>
+        </v-row>
+
+
+        <v-spacer></v-spacer>
+
+        <v-responsive max-width="260"></v-responsive>
+
+      </v-container>
+    </v-app-bar>
+
+    <!-- Main content -->
+    <v-main class="grey lighten-3">
+      <v-container>
+        <v-row>
+          <v-col>
+            <v-sheet min-height="70vh" rounded="lg">
+
+              <router-view></router-view>
+
+            </v-sheet>
+          </v-col>
+        </v-row>
+      </v-container>
+
+    </v-main>
+
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
 
+  components: {},
+
+  data: () => ({
+    //
+  }),
+};
+</script>
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
