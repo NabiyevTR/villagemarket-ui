@@ -29,10 +29,10 @@
 </template>
 
 <script>
-import api from "@/service/apiService";
+import api from "@/services/product.service";
 
 export default {
-  name: "Products",
+  name: "ProductsPage",
   data() {
     return {
       products: [],
