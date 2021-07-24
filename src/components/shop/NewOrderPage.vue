@@ -48,6 +48,12 @@
               label="comments">
           </v-textarea>
 
+          <v-btn color="success"
+                 :disabled="!valid"
+                 @click="this.submit">
+            Submit
+          </v-btn>
+
 
         </v-col>
 
@@ -122,7 +128,8 @@ export default {
       //TODO change according ResponseDto
       if (data == 200) {
         this.createOrderResponseError = false;
-        await router.push({name: "CMSProductsPage"});
+        //TODO push to order details page
+        await router.push({name: "ProductsPage"});
       } else {
         this.createOrderResponseError = true;
       }

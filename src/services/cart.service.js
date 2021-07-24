@@ -4,12 +4,12 @@ import authHeader from "@/services/auth-header";
 const apiCartClient = {
 
     async getCart() {
-        const response = await axios.get("/cart/", {headers: authHeader()})
+        const response = await axios.get("/cart", {headers: authHeader()})
         return response.data;
     },
 
     async updateCart(requestData) {
-        const response = await axios.patch("/cart/", requestData, {headers: authHeader()})
+        const response = await axios.post("/cart", requestData, {headers: authHeader()})
         return response.data;
     }
 

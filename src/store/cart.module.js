@@ -4,6 +4,7 @@ import cartApi from "@/services/cart.service";
 // shape: [{ id, quantity }]
 
 const cartFromLocalStorage = JSON.parse(localStorage.getItem('cart'));
+const user = JSON.parse(localStorage.getItem('user'));
 
 const state =
     () => ({
@@ -38,6 +39,7 @@ const getters = {
     }
 }
 
+
 // actions
 const actions = {
 
@@ -53,18 +55,42 @@ const actions = {
         }
     },
 
-    pushCartToServer({commit, state}) {
-        commit('saveItems');
-        commit('setCartItems', {items: []});
-        cartApi.updateCart(state.items)
-            .then(function (result) {
-                console.log(result);
-            });
+    pushCartToServer: async function({state}) {
+        if (user) {
+           return await cartApi.updateCart(state.items);
+        }
+    },
+
+    getCartFromServer({commit}) {
+        cartApi.getCart()
+            .then(
+                function (result) {
+                    commit('setCartItems', {
+                        items: result
+                    })
+                }
+            )
     },
 
     clearCart({commit}) {
         commit('setCartItems', {items: []});
         localStorage.setItem('cart', JSON.stringify([]));
+
+    },
+
+    incrementItemQuantity({commit, state}, id) {
+        commit('incrementItemQuantity', id);
+        localStorage.setItem('cart', JSON.stringify(state.items));
+    },
+
+    decrementItemQuantity({commit, state}, id) {
+        commit('decrementItemQuantity', id);
+        localStorage.setItem('cart', JSON.stringify(state.items));
+    },
+
+    removeItem({commit, state}, id) {
+        commit('deleteCartItem', id);
+        localStorage.setItem('cart', JSON.stringify(state.items));
     },
 
     addProductToCart({state, commit}, product) {
@@ -93,8 +119,24 @@ const mutations = {
     },
 
     incrementItemQuantity(state, {id}) {
-        const cartItem = state.items.find(item => item.id === id)
-        cartItem.quantity++
+        const cartItem = state.items.find(item => item.id === id);
+        cartItem.quantity++;
+    },
+
+    decrementItemQuantity(state, {id}) {
+        const cartItem = state.items.find(item => item.id === id);
+        if (cartItem.quantity > 1) {
+            cartItem.quantity--;
+        }
+    },
+
+    deleteCartItem(state, {id}) {
+        const cartItems = state.items;
+        const index = cartItems.map(x => {
+            return x.id;
+        }).indexOf(id);
+
+        cartItems.splice(index, 1);
     },
 
     setCartItems(state, {items}) {
@@ -109,6 +151,7 @@ const mutations = {
         state.checkoutStatus = status
     }
 }
+
 
 export default {
     namespaced: true,
