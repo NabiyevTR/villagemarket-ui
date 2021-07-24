@@ -7,7 +7,10 @@ export default class User {
                 lastName,
                 gender,
                 address,
-                birthDate) {
+                birthDate,
+                regDate,
+                comments,
+                roles) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -20,6 +23,10 @@ export default class User {
         this.gender = gender;
         this.address = address;
         this.birthDate = birthDate;
+        this.regDate = regDate;
+
+        this.comments = comments;
+        this.roles = roles;
     }
 
 

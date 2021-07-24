@@ -1,48 +1,40 @@
 <template>
   <v-container>
     <h1>Products</h1>
-    <v-row>
-      <v-col sm="6">
-        <v-simple-table>
-          <template v-slot:default>
-            <thead>
-            <tr>
-              <th class="text-left">
-                Product name
-              </th>
-              <th class="text-left">
-                Price
-              </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="product in products" :key="product.id">
-              <td>{{ product.name }}</td>
-              <td>{{ product.price }}</td>
-            </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
-      </v-col>
-    </v-row>
+
+    <v-flex d-flex grow="true">
+      <v-layout wrap>
+        <v-flex v-for="product in this.products" :key="product.id">
+          <product-card v-bind:product="product">
+          </product-card>
+        </v-flex>
+
+      </v-layout>
+
+    </v-flex>
+
   </v-container>
 </template>
 
 <script>
 import api from "@/services/product.service";
+import ProductCard from "@/components/shop/ProductCard";
+
 
 export default {
   name: "ProductsPage",
+  components: {ProductCard},
+
   data() {
     return {
-      products: [],
-      responseSuccess: false
+      products: []
     };
   },
   methods: {
     readProducts: async function () {
       const data = await api.readProducts();
-      this.products = data;
+      this.products = data.map(e => e);
+
     },
   },
   mounted() {

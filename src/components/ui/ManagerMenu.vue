@@ -6,13 +6,13 @@
   >
     <template v-slot:activator="{ on, attrs }">
       <v-btn
-
           v-bind="attrs"
           v-on="on"
-          color="orange darken-3"
+          color="blue darken-4"
           text
+          class=""
       >
-        Admin
+        Manager
       </v-btn>
     </template>
 
@@ -29,11 +29,13 @@
 </template>
 <script>
 export default {
-  name: 'AdminMenu',
+  name: 'MangerMenu',
   data: () => ({
     selectedItem: 1,
     items: [
-      {title: 'Users', link: '/cms/user/'},
+      {title: 'Orders', link: '/cms/order/'},
+      {title: 'Products', link: '/cms/product/'},
+      {title: 'Customers', link: '/cms/customer/'},
     ],
   }),
 }
