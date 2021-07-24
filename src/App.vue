@@ -1,6 +1,6 @@
 <template>
 
-  <v-app id="inspire">
+  <v-app id="inspire" >
 
     <c-app-bar>
       <!-- -->
@@ -12,12 +12,13 @@
 
     <v-main class="grey lighten-3">
 
-
-
         <v-container>
           <v-row>
-            <v-col>
-              <v-sheet min-height="70vh" rounded="lg">
+            <v-col align="center">
+              <v-sheet min-height="70vh"
+                       rounded="lg"
+                       max-width="1200"
+                       align="left" >
                 <!--  -->
                 <router-view></router-view>
               </v-sheet>

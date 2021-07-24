@@ -7,7 +7,6 @@ import Products from '../components/shop/ProductsPage.vue'
 //Auth pages
 import Login from "@/components/auth/Login";
 
-
 Vue.use(VueRouter)
 
 const routes = [
@@ -18,13 +17,25 @@ const routes = [
         name: 'Products',
         component: Products
     },
+    {
+        path: '/cart',
+        name: 'Cart',
+        component: () => import('../components/shop/Cart')
+    },
+    {
+        path: '/order/new',
+        name: 'NewOrderPage',
+        component: () => import('../components/shop/NewOrderPage')
+    },
+
+
+
 
     //auth
     {
         path: '/login',
         name: 'Login',
         component: Login
-
     },
 
     //CMS
@@ -56,9 +67,19 @@ const routes = [
 
     {
         path: '/cms/user',
-        name: 'Users',
-        component: Products
-        /*TODO change to Users*/
+        name: 'CMSUsers',
+        component: () => import('../components/cms/users/UsersPage')
+    },
+    {
+        path: '/cms/user/new',
+        name: 'CMSAddUserPage',
+        component: () => import('../components/cms/users/AddUserPage')
+    },
+    {
+        path: '/cms/user/:userId/edit',
+        name: 'CMSEditUserPage',
+        component: () => import('../components/cms/users/EditUserPage'),
+        props: true
     },
 
 
@@ -93,6 +114,7 @@ router.beforeEach((to, from, next) => {
     const publicPages = [
         '/login',
         '/',
+        '/cart',
         '/recipe',
         '/blog',
         '/contact',

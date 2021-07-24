@@ -24,7 +24,7 @@
               label="price"
               required
               :rules="[v => !!v || 'Price is required',
-            v => /^(\d*([.,](?=\d{3}))?\d+)+((?!\2)[.,]\d\d)?$/.test(v) || 'Price is required']"
+            v => /^(\d*([.,](?=\d{2}))?\d+)+((?!\2)[.,]\d\d)?$/.test(v) || 'Price is required']"
           ></v-text-field>
           <v-btn color="success"
                  :disabled="!valid"
@@ -91,7 +91,7 @@ export default {
     },
   },
   mounted() {
-    this.readProduct(this.productId)
+        this.readProduct(this.productId)
 
   },
 };

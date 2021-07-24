@@ -8,10 +8,10 @@ import store from './store';
 import axios from "axios";
 import VueAxios from "vue-axios";
 
-
 axios.defaults.baseURL = "http://localhost:8080/api"
 
 Vue.config.productionTip = false
+
 
 //axios
 Vue.use(VueAxios, axios)

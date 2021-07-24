@@ -54,6 +54,7 @@
 
 import User from './../../models/user';
 
+
 export default {
 
   name: 'Login',
@@ -86,7 +87,6 @@ export default {
 
   created() {
     if (!this.loggedIn) {
-
       this.$router.push('/cms/product');
     }
   },
@@ -117,6 +117,7 @@ export default {
                   error.message ||
                   error.toString();
             });
+
       }
     }
   }
