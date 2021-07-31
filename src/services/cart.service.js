@@ -10,6 +10,8 @@ const apiCartClient = {
 
     async updateCart(requestData) {
         const response = await axios.post("/cart", requestData, {headers: authHeader()})
+        console.debug('Sending post request to server', requestData);
+        console.debug('Getting request from server', response.data);
         return response.data;
     }
 

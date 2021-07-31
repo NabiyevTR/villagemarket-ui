@@ -19,37 +19,31 @@
               label="username"
               required
               :rules="usernameRules"/>
-
           <v-text-field
               v-model="user.firstName"
               label="first name"
               :rules="firstNameRules"/>
-
           <v-text-field
               v-model="user.lastName"
               label="last name"
               :rules="lastNameRules"/>
-
           <v-text-field
               v-model="user.email"
               label="email"
               required
               :rules="emailRules"/>
-
           <v-text-field
               v-model="user.phoneNumber"
               label="phone number"
               required
               :rules="phoneNumberRules"/>
-
           <v-menu
               v-model="menu"
               :close-on-content-click="false"
               :nudge-right="40"
               transition="scale-transition"
               offset-y
-              min-width="auto"
-          >
+              min-width="auto">
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
                   v-model="user.birthDate"
@@ -65,24 +59,18 @@
                 @input="menu2 = false"
             ></v-date-picker>
           </v-menu>
-
-
         </v-col>
         <v-col cols="8" class="pa-8">
-
           <v-text-field
               v-model="user.address"
               label="address"
               :rules="lastNameRules"/>
-
           <v-textarea
               v-model="user.comments"
               label="comments">
           </v-textarea>
-
           <v-row>
             <v-col cols="4">
-
               <v-container fluid>
                 <p>Role</p>
                 <v-checkbox
@@ -118,12 +106,9 @@
               </v-container>
             </v-col>
           </v-row>
-
-
         </v-col>
       </v-row>
       <v-row>
-
         <v-col align="center" justify="center" cols="12">
           <v-btn color="success"
                  class="ma-2"
@@ -137,7 +122,6 @@
             Cancel
           </v-btn>
         </v-col>
-
       </v-row>
     </v-form>
   </v-container>
@@ -157,12 +141,9 @@ export default {
   data() {
     return {
 
-
       user: new User(),
-
       addResponseError: false,
       valid: true,
-
       menu: false,
 
       usernameRules: [
@@ -204,10 +185,10 @@ export default {
   },
 
   methods: {
-
     readUser: async function () {
       this.user = await api.readUser(this.userId);
-
+      const birthDate = await (new Date(this.user.birthDate));
+      this.user.birthDate = birthDate.toISOString().split('T')[0];
     },
 
     updateUser: async function () {

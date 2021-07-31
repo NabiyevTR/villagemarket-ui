@@ -25,7 +25,6 @@ const apiUserClient = {
 
     async updateUser( requestData) {
         const response = await axios.patch("/cms/user/"  + requestData.id + "/edit", requestData, {headers: authHeader()})
-        alert(requestData.id)
         return response.data;
     }
 };

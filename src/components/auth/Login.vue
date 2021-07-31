@@ -53,7 +53,8 @@
 <script>
 
 import User from './../../models/user';
-
+//import cartApi from "@/services/cart.service";
+import {mapGetters} from "vuex";
 
 export default {
 
@@ -80,21 +81,26 @@ export default {
   }),
 
   computed: {
+    ...mapGetters('cart', {
+      products: 'cartProducts',
+    }),
+
+
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
     }
   },
 
   created() {
-    if (!this.loggedIn) {
-      this.$router.push('/cms/product');
-    }
+    /* if (!this.loggedIn) {
+       this.$router.push('/cms/product');
+     }*/
   },
 
   methods: {
 
-    handleLogin() {
 
+    handleLogin() {
       this.loading = true;
       this.$refs.form.validate()
 
@@ -104,10 +110,8 @@ export default {
       }
 
       if (this.user.username && this.user.password) {
-
         this.$store.dispatch('auth/login', this.user).then(
             () => {
-
               this.$router.push('/');
             },
             error => {
@@ -117,10 +121,11 @@ export default {
                   error.message ||
                   error.toString();
             });
-
       }
     }
-  }
+  },
+
+
 };
 </script>
 

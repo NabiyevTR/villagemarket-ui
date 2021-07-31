@@ -204,7 +204,6 @@ export default {
       } else {
         return  false;
       }
-
     }
   },
 
@@ -220,7 +219,9 @@ export default {
       };*/
 
       this.user.regDate = new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000);
+      console.debug('Sending user data to server: ' , this.user)
       const response = await api.createUser(this.user);
+
 
       if (response == 200) {
         this.addResponseError = false;
@@ -236,6 +237,8 @@ export default {
         this.createUser();
       }
     },
+
+
   },
 
   mounted() {

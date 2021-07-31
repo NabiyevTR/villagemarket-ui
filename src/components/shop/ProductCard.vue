@@ -1,11 +1,12 @@
 <template>
   <v-card
-      class="mx-auto"
-      max-width="300"
+      class="mx-auto ma-4"
+
+      max-width="250"
   >
     <v-img
         src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-        height="200px"
+        height="150px"
     ></v-img>
 
     <v-card-title>

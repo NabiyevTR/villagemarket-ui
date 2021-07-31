@@ -1,17 +1,20 @@
 <template>
   <v-container>
-    <h1>Products</h1>
+    <v-card flat>
+      <v-card-title>Products</v-card-title>
+      <v-card-text>
+        <v-flex d-flex grow="true" align-self-center>
+          <v-layout wrap>
+            <v-flex v-for="product in this.products" :key="product.id">
+              <product-card v-bind:product="product">
+              </product-card>
+            </v-flex>
 
-    <v-flex d-flex grow="true">
-      <v-layout wrap>
-        <v-flex v-for="product in this.products" :key="product.id">
-          <product-card v-bind:product="product">
-          </product-card>
+          </v-layout>
+
         </v-flex>
-
-      </v-layout>
-
-    </v-flex>
+      </v-card-text>
+    </v-card>
 
   </v-container>
 </template>

@@ -16,37 +16,61 @@
       <v-row>
         <v-col>
           <v-text-field
-              v-model="this.order.firstName"
+              v-model="order.firstName"
               label="first name"
-              :rules="this.firtsNameRules"/>
+          />
 
           <v-text-field
-              v-model="this.order.lastName"
+              v-model="order.lastName"
               label="last name"
-              :rules="this.lastNameRules"/>
+          />
 
           <v-text-field
-              v-model="this.order.address"
+              v-model="order.address"
               label="address"
               required
-              :rules="this.addressRules"/>
+              :rules="newOrderPageRules.addressRules"/>
 
           <v-text-field
-              v-model="this.order.phoneNumber"
+              v-model="order.phoneNumber"
               label="phone number"
               required
-              :rules="this.phoneNumberRules"/>
+              :rules="newOrderPageRules.phoneNumberRules"/>
 
           <v-text-field
-              v-model="this.order.email"
+              v-model="order.email"
               label="email"
               required
-              :rules="this.emailRules"/>
+              :rules="newOrderPageRules.emailRules"/>
 
           <v-textarea
-              v-model="this.order.comments"
+              v-model="order.comments"
               label="comments">
           </v-textarea>
+
+
+          <v-menu
+              v-model="this.menu"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto">
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                  v-model="order.deliveryDate"
+                  label="delivery date"
+                  prepend-icon="mdi-calendar"
+
+                  v-bind="attrs"
+                  v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker
+                v-model="order.deliveryDate"
+                @input="menu2 = false"
+            ></v-date-picker>
+          </v-menu>
 
           <v-btn color="success"
                  :disabled="!valid"
@@ -79,28 +103,25 @@ export default {
   data() {
     return {
       order: new Order(),
-
+      menu: false,
       createOrderResponseError: false,
       valid: true,
 
       // RULES
+      newOrderPageRules: {
+        addressRules: [
+          v => !!v || 'address is required',
+        ],
 
-      firstNameRules: [],
+        emailRules: [
+          v => !!v || 'email is required',
+          v => !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid' || 'E-mail must be valid',
+        ],
+        phoneNumberRules: [
+          v => !!v || 'phone is required',
+        ],
+      },
 
-      lastNameRules: [],
-
-      addressRules: [
-        v => !!v || 'address is required',
-      ],
-
-      emailRules: [
-        v => !!v || 'email is required',
-        v => !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid' || 'E-mail must be valid',
-      ],
-
-      phoneNumberRules: [
-        v => !!v || 'phone is required',
-      ],
     };
   },
 
@@ -117,18 +138,39 @@ export default {
       this.$store.dispatch('cart/checkout', products)
     },
 
-    getDataForOrder: async function () {
-      this.order = await api.getDataForOrder();
+    getDataForOrder() {
+      api.getDataForOrder().then((result) => {
+        console.debug("Receive data for new order", result);
+        this.order.firstName = result.firstName;
+        this.order.lastName = result.lastName;
+        this.order.address = result.address;
+        this.order.email = result.email;
+        this.order.phoneNumber = result.phoneNumber;
+
+        let date = new Date(result.deliveryDate);
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        if (month < 10) {
+          month = "0" + month;
+        }
+        let day = date.getDate()
+        if (day < 10) {
+          day = "0" + day;
+        }
+        this.order.deliveryDate = year + "-" + month + "-" + day
+
+      })
     },
 
     createOrder: async function () {
 
       const data = await api.createOrder(this.order)
-
+      console.debug("Response from server: ", data)
       //TODO change according ResponseDto
-      if (data == 200) {
+      if (data == 200 || true) {
         this.createOrderResponseError = false;
         //TODO push to order details page
+        await this.$store.dispatch('cart/clearCart');
         await router.push({name: "ProductsPage"});
       } else {
         this.createOrderResponseError = true;
@@ -142,8 +184,10 @@ export default {
       }
     },
   },
+
   mounted() {
     this.getDataForOrder();
+
 
   },
 };

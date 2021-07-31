@@ -3,7 +3,6 @@ import authHeader from "@/services/auth-header";
 
 const apiProductClient = {
 
-
     async readProducts() {
         const response = await axios.get("/cms/product",{headers: authHeader()})
         return response.data;

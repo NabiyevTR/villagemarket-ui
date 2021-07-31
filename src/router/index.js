@@ -12,6 +12,12 @@ Vue.use(VueRouter)
 const routes = [
 
     //Common
+
+    {
+        path: '/about',
+        name: 'AboutUsPage',
+        component: () => import('../components/about/AboutUsPage')
+    },
     {
         path: '/product',
         name: 'Products',
@@ -38,7 +44,7 @@ const routes = [
         component: Login
     },
 
-    //CMS
+    //CMS Products
     {
         path: '/cms/product',
         name: 'CMSProductsPage',
@@ -58,16 +64,27 @@ const routes = [
         props: true
     },
 
+    //CMS Orders
+
     {
         path: '/cms/order',
-        name: 'Orders',
-        component: Products
-        /*TODO change to Orders*/
+        name: 'CMSOrdersPage',
+        component: () => import('../components/cms/orders/OrdersPage'),
     },
 
     {
+        path: '/cms/order/:orderId',
+        name: 'CMSOrderPage',
+        component: () => import('../components/cms/orders/OrderPage'),
+        props: true
+    },
+
+
+
+
+    {
         path: '/cms/user',
-        name: 'CMSUsers',
+        name: 'CMSUsersPage',
         component: () => import('../components/cms/users/UsersPage')
     },
     {

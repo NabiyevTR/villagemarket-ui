@@ -9,7 +9,7 @@ export const auth = {
     namespaced: true,
     state: initialState,
     actions: {
-        login({ commit }, user) {
+        login({commit}, user) {
             return AuthService.login(user).then(
                 user => {
                     commit('loginSuccess', user);
@@ -21,11 +21,11 @@ export const auth = {
                 }
             );
         },
-        logout({ commit }) {
+        logout({commit}) {
             AuthService.logout();
             commit('logout');
         },
-        register({ commit }, user) {
+        register({commit}, user) {
             return AuthService.register(user).then(
                 response => {
                     commit('registerSuccess');

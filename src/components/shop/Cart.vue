@@ -3,7 +3,9 @@
 
     <h2>Your Cart</h2>
 
-    <v-simple-table>
+    <p v-show="this.isEmpty">Cart is empty.</p>
+
+    <v-simple-table v-show="!this.isEmpty">
       <template v-slot:default>
         <thead>
         <tr>
@@ -47,20 +49,20 @@
         </tbody>
       </template>
     </v-simple-table>
-    <p>
+    <p v-show="!isEmpty">
       Total: $ {{ total }}
     </p>
     <!--<p v-show="checkoutStatus">Checkout {{ checkoutStatus }}.</p>-->
 
     <v-btn color="success"
-           v-show="!loggedIn"
+           v-show="!loggedIn && !isEmpty"
            :disabled="!valid"
            @click="logIn">
       Login to continue
     </v-btn>
 
     <v-btn color="success"
-           v-show="loggedIn"
+           v-show="loggedIn && !isEmpty"
            :disabled="!valid"
            @click="submit">
       Submit
@@ -71,6 +73,8 @@
 </template>
 
 <script>
+
+/*import product from "@/models/product";*/
 
 const user = JSON.parse(localStorage.getItem('user'));
 import api from "@/services/cart.service";
@@ -109,7 +113,19 @@ export default {
       get: function () {
         return Boolean(this.user)
       }
+    },
+
+    isEmpty: {
+      get: function () {
+        if (this.products == null) {
+          return true;
+        }
+        return this.products.length === 0;
+      }
     }
+
+
+
 // loggedIn: Boolean(this.$store.state.auth.user)
   },
 
@@ -125,8 +141,8 @@ export default {
       this.$store.dispatch('cart/update')
     },
 
-    logIn () {
-       this.$router.push('/login');
+    logIn() {
+      this.$router.push('/login');
 
     },
 
@@ -160,18 +176,21 @@ export default {
 
   },
 
-  mounted: async function() {
-    if (user) {
-      const cartFromServer = await api.getCart();
-      if (cartFromServer && cartFromServer.length > 0) {
-        await this.$store.dispatch('cart/setCartItems', {
-          items: cartFromServer,
-        })
-      } else {
-        await this.pushCartToServer();
+  /*  mounted: async function() {
+      if (user) {
+        const data = await api.getCart();
+        const cartFromServer = data.cart;
+        console.log('Receive cart from server: ', cartFromServer)
+
+        if (cartFromServer && cartFromServer.length > 0) {
+          await this.$store.dispatch('cart/setCartItems', {
+            items: cartFromServer,
+          });
+        } else {
+          await this.pushCartToServer();
+        }
       }
-    }
-  }
+    }*/
 
 }
 
