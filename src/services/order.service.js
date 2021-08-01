@@ -9,7 +9,7 @@ const apiOrderClient = {
     },
 
     async createOrder(requestData) {
-        const response = await axios.post("/order", requestData)
+        const response = await axios.post("/order", requestData, {headers: authHeader()})
         return response.data;
     },
 

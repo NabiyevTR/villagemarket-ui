@@ -80,9 +80,8 @@ export default {
         const data = await api.readProducts();
         this.products = data;
       } catch (e) {
-        console.log(e)
+        console.warn(e)
       }
-
     },
 
     removeProduct: async function (productId) {
@@ -91,6 +90,7 @@ export default {
           (product) => product.id != productId
       );
       const data = await api.deleteProduct(productId);
+      //todo handle response status
       if (data == 200) {
         this.deleteResponseSuccess = true;
         this.deleteResponseError = false;

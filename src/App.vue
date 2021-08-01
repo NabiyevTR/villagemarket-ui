@@ -18,6 +18,7 @@
               <v-sheet min-height="70vh"
                        rounded="lg"
                        max-width="1200"
+                       min-width="1000"
                        align="left" >
                 <!--  -->
                 <router-view></router-view>

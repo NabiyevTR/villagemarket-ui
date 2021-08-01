@@ -1,12 +1,12 @@
 <template>
-  <v-app-bar app color="white" flat min-width="1000">
+  <v-app-bar app color="white" flat min-width="1000" >
 
 
-    <v-container class="py-0 fill-height">
+    <v-container class="py-0 fill-height"  max-width="1200" >
 
       <!--Menu buttons-->
 
-      <v-row justify='end'>
+      <v-row justify='end' >
         <v-col cols="10">
           <v-btn to="/" text>Home</v-btn>
           <!--<v-btn to="/recipe" text>Recipe</v-btn>-->
@@ -28,21 +28,32 @@
         </v-col>
         <v-col align="right">
 
-          <v-btn
-              class="mx-2"
-              fab
-              dark
-              small
-              color="green darken-2"
-              to="/cart"
+          <v-badge
+              :value="!cartIsEmpty"
+              bordered
+              overlap
+              color="pink accent-4"
+              dot
+              offset-x="18"
+              offset-y="10"
           >
-            <v-icon
-
-                color="white"
+            <v-btn
+                class="mx-2"
+                fab
+                dark
+                small
+                color="green darken-2"
+                to="/cart"
             >
-              {{ this.icons.mdiCart }}
-            </v-icon>
-          </v-btn>
+              <v-icon
+
+                  color="white"
+              >
+
+                {{ this.icons.mdiCart }}
+              </v-icon>
+            </v-btn>
+          </v-badge>
 
           <v-btn
               class="mx-2"
@@ -143,6 +154,21 @@ export default {
       return Boolean(this.user);
 
     },
+
+    cartIsEmpty() {
+      const cart =  this.$store.state.cart;
+      //const cart = JSON.parse(localStorage.getItem('cart'));
+      //console.log(cart)
+      if (cart == null) {
+        return true;
+      }
+
+      //if (cart.length.items === 0) {
+      if (cart.items.length === 0) {
+        return true;
+      }
+      return false;
+    }
   },
 
 

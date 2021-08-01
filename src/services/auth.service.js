@@ -1,4 +1,6 @@
 import axios from "axios";
+import store from "../store"
+import router from "@/router";
 
 const API_URL = 'http://localhost:8080/api/auth/'
 
@@ -13,6 +15,9 @@ class AuthService {
             .then(response => {
                if (response.data.accessToken) {
                     localStorage.setItem('user', JSON.stringify(response.data));
+                    store.dispatch('cart/loadCart')
+                        .then(() => console.debug('Cart is ready'));
+
                 }
                 return response.data;
             })
@@ -20,6 +25,8 @@ class AuthService {
 
     logout() {
         localStorage.removeItem('user');
+        store.dispatch('cart/clearCart').then(()=>console.debug('Cart was cleared'));
+        router.push("/").then(() => console.debug("Pushed to main page after logout: "))
     }
 
     register(user) {
@@ -37,6 +44,8 @@ class AuthService {
             birthDate: user.birthDate
         });
     }
+
+
 }
 
 export default new AuthService();
