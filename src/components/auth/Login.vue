@@ -1,44 +1,72 @@
 <template>
   <v-container>
-    <v-row>
+
+    <v-container>
+
+      <v-alert
+          elevation="1"
+          dense
+          text
+          type="error"
+          v-show="loginError"
+      >
+        Illegal username or password
+      </v-alert>
+
+    </v-container>
+
+
+    <v-row justify="center" align="center">
+
+      <v-col cols="4"/>
       <v-col cols="4">
 
-      </v-col>
-      <v-col cols="4">
+        <v-sheet
+            :rounded="'lg'"
+            class="pa-8"
+            outlined>
+          <h3 class="font-weight-black" align="center">Login form</h3>
+          <v-form align="center"
+                  class="ma-5"
+                  ref="form"
+                  v-model="valid"
+                  lazy-validation          >
+            <v-text-field
+                v-model="user.username"
+                :counter="20"
+                :rules="nameRules"
+                label="Name"
+                required
+            ></v-text-field>
+            <v-text-field
+                v-model="user.password"
+                type="password"
+                :counter="20"
+                :rules="passwordRules"
+                label="Password"
+                required
+            ></v-text-field>
+
+            <v-btn
+
+                :disabled="!valid"
+                color="success"
+                class="ma-5"
+                @click="handleLogin"
+            >
+              Submit
+            </v-btn>
+            <br>
+            <v-btn
+                color="success"
+                @click="$router.push({path: '/registration'})"
+            >
+              Registration
+            </v-btn>
 
 
-        <v-form
-            ref="form"
-            v-model="valid"
-            lazy-validation
-        >
-          <v-text-field
-              v-model="user.username"
-              :counter="20"
-              :rules="nameRules"
-              label="Name"
-              required
-          ></v-text-field>
-
-          <v-text-field
-              v-model="user.password"
-              :counter="20"
-              :rules="passwordRules"
-              label="Password"
-              required
-          ></v-text-field>
-
-          <v-btn
-              :disabled="!valid"
-              color="success"
-              class="mr-4"
-              @click="handleLogin"
-          >
-            Submit
-          </v-btn>
-
-
-        </v-form>
+          </v-form>
+        </v-sheet>
 
 
       </v-col>
@@ -62,10 +90,9 @@ export default {
 
   data: () => ({
 
-
+    loginError: false,
     user: new User('', ''),
     loading: false,
-
     valid: true,
 
     nameRules: [
@@ -85,20 +112,12 @@ export default {
       products: 'cartProducts',
     }),
 
-
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
     }
   },
 
-  created() {
-    /* if (!this.loggedIn) {
-       this.$router.push('/cms/product');
-     }*/
-  },
-
   methods: {
-
 
     handleLogin() {
       this.loading = true;
@@ -112,7 +131,14 @@ export default {
       if (this.user.username && this.user.password) {
         this.$store.dispatch('auth/login', this.user).then(
             () => {
-              this.$router.push('/');
+              this.loginError = localStorage.getItem('user') === null
+              if (!this.loginError) {
+                this.$router.push('/');
+              } else {
+                this.user.username = "";
+                this.user.password = "";
+                this.$refs.form.reset();
+              }
             },
             error => {
               this.loading = false;
@@ -120,7 +146,8 @@ export default {
                   (error.response && error.response.data) ||
                   error.message ||
                   error.toString();
-            });
+            })
+
       }
     }
   },

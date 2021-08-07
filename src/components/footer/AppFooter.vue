@@ -1,8 +1,7 @@
 <template>
-  <v-card tile >
+  <v-card tile elevation="4" >
       <v-footer class="green lighten-2"
           padless
-
       >
 
     <!--    <img

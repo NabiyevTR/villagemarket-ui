@@ -1,8 +1,8 @@
 <template>
   <v-container>
 
+    <v-card flat min-height="450px" elevation="4">
 
-    <v-card flat>
       <v-card-title>
         Who we are
       </v-card-title>
@@ -11,6 +11,7 @@
         <v-img
             style="float:right"
             max-width="500"
+            class="ml-3"
             src="http://bliccathemes.com/themes/farmvilla/wp-content/uploads/2016/05/abouttt.png"
         >
         </v-img>

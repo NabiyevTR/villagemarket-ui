@@ -8,6 +8,11 @@ const apiProductClient = {
         return response.data;
     },
 
+    async readAvailableProducts() {
+        const response = await axios.get("/cms/product/available",{headers: authHeader()})
+        return response.data;
+    },
+
     async createProduct(requestData) {
         const response = await axios.post("/cms/product/", requestData, {headers: authHeader()})
         return response.data;

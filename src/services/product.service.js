@@ -8,6 +8,11 @@ const apiProductClient = {
         return response.data;
     },
 
+    async readProductsWithCategory(category) {
+        const response = await axios.get("/product/category/" + category)
+        return response.data;
+    },
+
     async readProduct(productId) {
         const response = await axios.get("/product/" + productId)
         return response.data;
