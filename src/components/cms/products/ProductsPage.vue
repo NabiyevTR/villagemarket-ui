@@ -1,65 +1,65 @@
 <template>
-  <v-container>
-    <h1>Products CMS</h1>
-    <v-row>
-      <v-col>
-        <v-alert v-if="deleteResponseSuccess" dense text type="success">
-          You have successfully deleted product.
-        </v-alert>
-        <v-alert v-if="deleteResponseError" dense text type="error">
-          Cannot delete product
-        </v-alert>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-btn :to="{ name: 'CMSAddProductPage'}">
-          Add product
-        </v-btn>
-      </v-col>
-    </v-row>
-    <v-row >
-      <v-col >
-        <v-simple-table>
-          <template v-slot:default>
-            <thead>
-            <tr>
-              <th class="text-left">
-                Product name
-              </th>
-              <th class="text-center" >
-                Price
-              </th>
-              <th class="text-center">
-                Delete
-              </th>
-              <th class="text-center">
-                Edit
-              </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="product in products" :key="product.id">
-              <td>{{ product.name }}</td>
-              <td class="text-center" width="10%">{{ product.price }}</td>
-              <td class="text-center" width="1%">
-                <v-btn icon color="pink" v-on:click="removeProduct(product.id)">
-                  <v-icon>mdi-delete</v-icon>
-                </v-btn>
-              </td>
-              <td class="text-center" width="1%">
-                <v-btn icon color="blue"
-                       :to="{ name: 'CMSEditProductPage', params: { productId: product.id }}">
-                  <v-icon>mdi-pencil-box-outline</v-icon>
-                </v-btn>
-              </td>
-            </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-card flat elevation="4">
+    <v-card-title>Products
+      <v-spacer></v-spacer>
+      <v-switch flat
+                v-model="availableForSale"
+                label="Only available for sale"
+                color="success"
+                inset
+                @change="readProducts">
+      </v-switch>
+
+
+    </v-card-title>
+    <v-card-text>
+      <v-alert v-if="deleteResponseSuccess" dense text type="success">
+        You have successfully deleted product.
+      </v-alert>
+      <v-alert v-if="deleteResponseError" dense text type="error">
+        Cannot delete product
+      </v-alert>
+      <v-btn
+          color="success"
+          :to="{ name: 'CMSAddProductPage'}">
+        Add product
+      </v-btn>
+      <v-data-table
+          :headers="headers"
+          :items="products"
+          item-key="name"
+          class="elevation-0"
+          :search="search"
+      >
+        <template v-slot:top>
+          <v-text-field
+              v-model="search"
+              label="Search"
+              class="mx-4"
+          ></v-text-field>
+        </template>
+
+        <template v-slot:item.availableForSale="{ item }">
+          <v-simple-checkbox
+              v-model="item.availableForSale"
+              disabled
+          ></v-simple-checkbox>
+        </template>
+
+        <template v-slot:item.actions="{ item }">
+          <v-icon
+              small
+              class="mr-2"
+              @click="editProduct(item.id)"
+          >
+            mdi-pencil
+          </v-icon>
+
+        </template>
+
+      </v-data-table>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
@@ -67,41 +67,68 @@ import api from "@/services/cms.product.service";
 
 export default {
   name: "ProductsPage",
+
   data() {
     return {
       products: [],
       deleteResponseSuccess: false,
       deleteResponseError: false,
+      search: '',
+      availableForSale: true,
     };
   },
+
+
+
+  computed: {
+    headers() {
+      return [
+        {text: 'Id', align: 'start', value: 'id', width: '100px'},
+        {text: 'Name', value: 'name',},
+        {text: 'Price', value: 'price',  width: '100px', align: 'center'},
+        {text: 'Available', value: 'availableForSale',  width: '100px', align: 'center', sortable: false},
+        {text: 'Actions', value: 'actions', width: '100px', align: 'center', sortable: false},
+      ]
+    }
+  },
+
   methods: {
     readProducts: async function () {
+
+      let data;
+
       try {
-        const data = await api.readProducts();
-        this.products = data;
+        if (this.availableForSale) {
+          data = await api.readAvailableProducts();
+        } else {
+          data = await api.readProducts();
+        }
+
+        const formatter = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        });
+
+        this.products = data.map((item) => {
+          return {
+            id: item.id,
+            name: item.name,
+            availableForSale: item.availableForSale,
+            price: formatter.format(item.price),
+          }
+        });
+
+
       } catch (e) {
         console.warn(e)
       }
     },
 
-    removeProduct: async function (productId) {
-      console.log("Removing Product " + productId);
-      this.products = this.products.filter(
-          (product) => product.id != productId
-      );
-      const data = await api.deleteProduct(productId);
-      //todo handle response status
-      if (data == 200) {
-        this.deleteResponseSuccess = true;
-        this.deleteResponseError = false;
-      } else {
-        this.deleteResponseSuccess = false;
-        this.deleteResponseError = true;
-        const data = api.readProducts();
-        this.products = data;
-      }
-
+    editProduct: async function (productId) {
+      await this.$router.push({name: 'CMSEditProductPage', params: {productId: productId}});
     },
+
+
 
 
   },

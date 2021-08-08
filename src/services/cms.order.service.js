@@ -8,6 +8,11 @@ const apiOrderClient = {
         return response.data;
     },
 
+    async readActiveOrders() {
+        const response = await axios.get("/cms/order/active", {headers: authHeader()})
+        return response.data;
+    },
+
     async createOrder(requestData) {
         const response = await axios.post("/cms/order/new", requestData)
         return response.data;
@@ -19,12 +24,17 @@ const apiOrderClient = {
     },
 
     async deleteOrder(userId) {
-        const response = await axios.delete("/cms/order/" + userId)
+        const response = await axios.delete("/cms/order/" + userId, {headers: authHeader()})
         return response.data;
     },
 
     async updateOrder(orderId, requestData) {
-        const response = await axios.patch("/cms/order/" + orderId, requestData)
+        const response = await axios.patch("/cms/order/" + orderId, requestData, {headers: authHeader()})
+        return response.data;
+    },
+
+    async updateOrderStatus(orderId, requestData) {
+        const response = await axios.patch("/cms/order/" + orderId+ "/edit/status/", requestData, {headers: authHeader()})
         return response.data;
     }
 

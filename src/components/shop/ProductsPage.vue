@@ -1,7 +1,8 @@
 <template>
   <v-container>
-    <v-card flat>
-      <v-card-title>Products</v-card-title>
+
+    <v-card flat class="grey lighten-5">
+      <!--  <v-card-title>Products</v-card-title>-->
       <v-card-text>
         <v-flex d-flex grow="true" align-self-center>
           <v-layout wrap>
@@ -27,21 +28,42 @@ import ProductCard from "@/components/shop/ProductCard";
 export default {
   name: "ProductsPage",
   components: {ProductCard},
-
+  props: ['category'],
   data() {
     return {
-      products: []
+      products: [],
+
     };
   },
-  methods: {
-    readProducts: async function () {
-      const data = await api.readProducts();
-      this.products = data.map(e => e);
 
+  watch: {
+    '$route.params': {
+      handler() {
+        this.readProducts();
+
+      },
+      immediate: true,
     },
   },
+
+  methods: {
+    readProducts: async function () {
+      let data;
+
+      if (this.category === undefined) {
+        data = await api.readProducts();
+      } else {
+        data = await api.readProductsWithCategory(this.category);
+      }
+
+      this.products = data.map(e => e);
+      console.debug("Products from server: ", data);
+    },
+  },
+
   mounted() {
     this.readProducts();
   },
+
 };
 </script>

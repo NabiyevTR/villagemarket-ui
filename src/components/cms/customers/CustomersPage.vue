@@ -1,44 +1,38 @@
 <template>
   <v-container>
     <v-card flat elevation="4">
-      <v-card-title>Orders
-        <v-spacer></v-spacer>
-
-        <v-switch flat
-                  v-model="onlyActiveOrders"
-                  label="Only active orders"
-                  color="success"
-                  inset
-                  @change="readOrders">
-
-        </v-switch>
-      </v-card-title>
-
+      <v-card-title>Customers</v-card-title>
       <v-card-text>
         <v-alert
             v-model="alert"
             elevation="5"
             dismissible
             dense
-            type="info">
-          Double click on row to view order info
+            type="info"
+        >
+          Double click on row to view customer info
         </v-alert>
         <v-data-table
             :headers="headers"
-            :items="orders"
+            :items="customers"
             item-key="name"
             class="elevation-0"
             :search="search"
             @click:row="handleClick"
-            @dblclick:row="handleDoubleClick">
+            @dblclick:row="handleDoubleClick"
+        >
           <template v-slot:top>
-
             <v-text-field
                 v-model="search"
                 label="Search"
-                class="mx-3"
+                class="mx-3"></v-text-field>
+          </template>
 
-            ></v-text-field>
+          <template v-slot:item.isActive ="{ item }">
+            <v-simple-checkbox
+                v-model="item.isActive"
+                disabled
+            ></v-simple-checkbox>
           </template>
 
 
@@ -47,70 +41,63 @@
     </v-card>
   </v-container>
 </template>
-
-
 <script>
 
-import api from "@/services/cms.order.service";
+import api from "@/services/cms.customer.service";
 
 export default {
   data() {
     return {
       alert: true,
-      orders: [],
+      customers: [],
       search: '',
-      onlyActiveOrders: true,
 
     }
   },
   computed: {
     headers() {
       return [
-        {text: 'Order ID', align: 'start', value: 'id'},
+        {text: 'Customer ID', align: 'start', value: 'id'},
         {text: 'Username', value: 'username'},
-        {text: 'Status', value: 'status'},
-        {text: 'Order Date', value: 'orderDate'},
-        {text: 'Delivery Date', value: 'deliveryDate'},
+        {text: 'Reg date', value: 'regDate'},
+        {text: 'Active', value: 'isActive'},
+        {text: 'Total orders', value: 'totalOrders'},
         {text: 'Total price', value: 'totalPrice'},
-
       ]
     },
 
 
   },
   methods: {
-    readOrders: async function () {
+    readCustomers: async function () {
       try {
-        let data;
-        if (this.onlyActiveOrders) {
-          data = await api.readActiveOrders();
-        } else {
-          data = await api.readOrders();
-        }
+        const data = await api.readCustomers()
+
         const formatter = new Intl.NumberFormat('en-US', {
           style: 'currency',
           currency: 'USD',
         });
 
-        console.debug("Orders from server: ", data);
-        this.orders = data.map((item) => {
+        console.debug("Customers from server: ", data);
+        this.customers = data.map((item) => {
           return {
             id: item.id,
             username: item.username,
-            status: item.status,
-            orderDate: this.convertDateTime(item.orderDate),
-            deliveryDate: this.convertDateTime(item.deliveryDate),
+            regDate: this.convertDateTime(item.regDate),
+            isActive: !item.blocked,
+            totalOrders: item.totalOrders,
             totalPrice: formatter.format(item.totalPrice),
           }
         });
       } catch (e) {
-        console.warn(e)
+        console.warn('Error during loading customer data: ', e)
       }
     },
 
     convertDateTime: function (orderDate) {
       let date = new Date(orderDate);
       return date.toLocaleString("ru-RU");
+
     },
 
     handleClick(item) {
@@ -119,17 +106,12 @@ export default {
 
     handleDoubleClick(event, {item}) {
       console.debug('Row selected: ', item);
-      this.$router.push({name: 'CMSOrderPage', params: {orderId: item.id}})
-
+      this.$router.push({name: 'CMSCustomerPage', params: {customerId: item.id}})
     },
-
-
   },
 
   mounted() {
-
-    this.readOrders();
-
+    this.readCustomers();
   }
 }
 </script>

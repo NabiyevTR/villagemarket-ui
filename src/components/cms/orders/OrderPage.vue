@@ -1,5 +1,5 @@
 <template>
-  <v-card flat>
+  <v-card flat elevation="4">
     <v-card-title>Order №{{ orderId }}</v-card-title>
     <v-card-text>
 
@@ -42,12 +42,8 @@
               </tbody>
             </template>
           </v-simple-table>
-
-
         </v-col>
         <v-col cols="6">
-
-
           <v-simple-table>
             <template v-slot:default>
               <thead>
@@ -70,12 +66,12 @@
               <tbody>
               <tr v-for="product in order.products" :key="product.id">
                 <td>{{ product.name }}</td>
-                <td class="text-center" width="20%">{{ product.price }} $</td>
+                <td class="text-center" width="20%">{{ product.price }}</td>
                 <td class="text-center" width="20%">{{ product.quantity }} ps</td>
               </tr>
               </tbody>
               <tfoot>
-              Total: {{ order.totalPrice }}
+              <span class="font-weight-medium">Total: {{ order.totalPrice }}</span>
               </tfoot>
             </template>
           </v-simple-table>
@@ -110,36 +106,39 @@
             </template>
           </v-simple-table>
 
-<v-container>
-          <v-row>
+          <v-container>
+            <v-row>
 
-            <v-col cols="6">
+              <v-col cols="6">
 
-              <v-select
-                  v-model="this.order.status"
-                  :items="statusItems"
-                  item-text="status"
-                  label="Order status"
-                  @change="checkStatusChange"
-              ></v-select>
-            </v-col>
-            <v-col align-self="center">
-              <v-btn class="success" v-show="isStatusChange">
-
-                Submit
-              </v-btn>
-            </v-col>
-          </v-row>
-</v-container>
+                <v-select
+                    v-model="this.order.status"
+                    :items="statusItems"
+                    item-text="status"
+                    label="Order status"
+                    @change="checkStatusChange"
+                ></v-select>
+              </v-col>
+              <v-col align-self="center">
+                <v-btn class="success" v-show="isStatusChanged" @click="updateStatus">
+                  Submit
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-container>
 
         </v-col>
       </v-row>
-
-
+      <v-row>
+        <v-col cols="12" align="center">
+          <v-btn class="success mb-4" @click="$router.push({path: '/cms/order'})">
+            Back to orders
+          </v-btn>
+        </v-col>
+      </v-row>
     </v-card-text>
   </v-card>
 </template>
-
 <script>
 import api from "@/services/cms.order.service";
 
@@ -149,11 +148,20 @@ export default {
   props: ['orderId'],
 
 
+
+
   data() {
     return {
+
+
       order: {
         id: this.orderId,
       },
+
+
+
+      newStatus: "",
+
       statusItems: [
         {status: 'Cancelled'},
         {status: 'Located'},
@@ -161,36 +169,65 @@ export default {
         {status: 'Assembling'},
         {status: 'Awaiting delivery'},
         {status: 'Delivery'},
-        {status: 'Delivered'}
+        {status: 'Delivered'},
+        {status: 'Closed'}
       ],
-      vSelectText: '',
 
-      isStatusChange: false,
+      isStatusChanged: false,
 
     };
   },
+
+
 
   methods: {
     readOrder: async function () {
       const data = await api.readOrder(this.orderId);
       console.debug('Get order from server: ', data);
+
+      const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      });
+
       this.order = data;
-      this.vSelectText = data.status;
+      this.order.totalPrice = formatter.format(this.order.totalPrice);
+      this.order.poducts = this.order.products.map(product => {
+        product.price = formatter.format(product.price);
+        return product
+      })
+      this.newStatus = this.order.status;
+
     },
 
     checkStatusChange(status) {
-      this.isStatusChange = this.order.status !== status;
+      this.newStatus = status;
+      this.isStatusChanged = this.order.status !== this.newStatus;
+    },
+
+    updateStatus: async function () {
+
+      const request = {
+        orderId: this.order.id,
+        status: this.newStatus
+      }
+
+      console.log('Sending request to server for status update: ', request);
+
+      const response = await api.updateOrderStatus(this.order.id, request);
+
+      console.log('Response from server for status update: ', response);
+
+
+      this.order.status = response.status;
+      this.order.history = response.history;
+      this.isStatusChanged = this.order.status !== this.newStatus;
     }
   },
 
   mounted() {
     this.readOrder()
-  }
+  },
 }
-
-
 </script>
 
-<style scoped>
-
-</style>
