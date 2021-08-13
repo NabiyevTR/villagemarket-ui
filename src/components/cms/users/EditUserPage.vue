@@ -3,13 +3,6 @@
     <v-card flat elevation="4">
       <v-card-title>Edit user</v-card-title>
       <v-card-text>
-        <v-row>
-          <v-col cols="12">
-            <v-alert v-if="addResponseError" dense text type="error">
-              Cannot add user
-            </v-alert>
-          </v-col>
-        </v-row>
         <v-form
             ref="form"
             v-model="valid">
@@ -154,7 +147,6 @@ export default {
     return {
 
       user: new User(),
-      addResponseError: false,
       valid: true,
       menu: false,
 
@@ -204,14 +196,8 @@ export default {
     },
 
     updateUser: async function () {
-      const data = await api.updateUser(this.user);
-
-      if (data == 200) {
-        this.updateResponseError = false;
-        await router.push({name: "CMSUsersPage"});
-      } else {
-        this.updateResponseError = true;
-      }
+      await api.updateUser(this.user);
+      await router.push({path: "/cms/user"});
     },
 
     submit() {

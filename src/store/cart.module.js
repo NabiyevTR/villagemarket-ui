@@ -53,13 +53,22 @@ const getters = {
 
     cartTotalPrice: (state, getters) => {
 
+        let totalPrice;
+
         if (!getters.cartProducts || getters.cartProducts.length === 0) {
-            return 0;
+            totalPrice = 0;
         }
 
-        return getters.cartProducts.reduce((total, product) => {
+        totalPrice = getters.cartProducts.reduce((total, product) => {
             return total + product.price * product.quantity
         }, 0)
+
+        const formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+        });
+
+        return formatter.format(totalPrice)
     },
 
     cartIsNotEmpty: (state) => {

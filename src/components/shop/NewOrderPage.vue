@@ -171,7 +171,7 @@ export default {
         this.createOrderResponseError = false;
         //TODO push to order details page
         await this.$store.dispatch('cart/clearCart');
-        await router.push({name: "ProductsPage"});
+        await this.$router.push({path: "/product"});
       } else {
         this.createOrderResponseError = true;
       }

@@ -225,7 +225,10 @@ router.beforeEach((to, from, next) => {
         '/about',
         '/contacts',
         '/cart',
-        '/product'
+        '/product',
+        '/product/fruits',
+        '/product/vegetables',
+
     ];
     const authRequired = !publicPages.includes(to.path);
     const loggedIn = localStorage.getItem('user');

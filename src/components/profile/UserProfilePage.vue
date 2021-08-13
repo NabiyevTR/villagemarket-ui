@@ -26,6 +26,10 @@
                       <td>{{ user.lastName }}</td>
                     </tr>
                     <tr>
+                      <td>Gender</td>
+                      <td>{{ user.gender }}</td>
+                    </tr>
+                    <tr>
                       <td> Email</td>
                       <td>{{ user.email }}</td>
                     </tr>
@@ -37,13 +41,19 @@
                       <td> Address</td>
                       <td>{{ user.address }}</td>
                     </tr>
+                <!--    <tr>
+                      <td> Reg date</td>
+                      <td>{{ user.regDate }}</td>
+                    </tr>-->
+                    <tr>
+                      <td> Birth date</td>
+                      <td>{{ user.birthDate }}</td>
+                    </tr>
                     </tbody>
                   </template>
                 </v-simple-table>
               </v-card-text>
             </v-card>
-
-
           </v-col>
           <v-col cols="7">
             <v-card flat>
@@ -61,8 +71,8 @@
                 >
 
 
-                  <template v-slot:expanded-item="{ headers, item }" >
-                    <td :colspan="headers.length" >
+                  <template v-slot:expanded-item="{ headers, item }">
+                    <td :colspan="headers.length">
                       <v-container>
                         <v-simple-table>
                           <template v-slot:default>
@@ -120,6 +130,7 @@ export default {
       user: '',
       singleExpand: false,
       expanded: [],
+
     }
 
   },
@@ -143,6 +154,27 @@ export default {
       });
       this.user = response;
 
+      this.user.firstName = this.user.firstName == null || this.user.firstName === "" ? "-" : this.user.firstName;
+      this.user.lastName = this.user.lastName == null || this.user.lastName === "" ? "-" : this.user.lastName;
+      this.user.address = this.user.address == null || this.user.address === "" ? "-" : this.user.address;
+
+
+      this.user.regDate = new Date(this.user.regDate).toLocaleDateString("ru-RU");
+
+      if (this.user.birthDate == null) {
+        this.user.birthDate = "-";
+      } else {
+        this.user.birthDate = new Date(this.user.birthDate).toLocaleDateString("ru-RU");
+      }
+
+      if (this.user.gender === "m") {
+        this.user.gender = "male";
+      } else if (this.user.gender === "f") {
+        this.user.gender = "female";
+      } else {
+        this.user.gender = "-";
+      }
+
       this.user.orders = this.user.orders.map(order => {
         order.totalPrice = currencyFormatter.format(order.totalPrice);
         order.orderDate = dateTimeFormatter.format(new Date(order.orderDate));
@@ -155,10 +187,11 @@ export default {
   computed: {
     headers() {
       return [
-        {text: 'Order ID', align: 'start', value: 'id'},
+        {text: 'Order ID', align: 'start', value: 'id', width: "100px"},
         {text: 'Order Date', value: 'orderDate'},
         {text: 'Status', value: 'status'},
         {text: 'Price', value: 'totalPrice'},
+        {text: '', value: 'data-table-expand'},
       ]
     },
   },
