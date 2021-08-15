@@ -53,7 +53,7 @@
           </template>
         </v-simple-table>
         <p v-show="!isEmpty" class="font-weight-black ma-3">
-          Total: $ {{ total }}
+          Total: {{ total}}
         </p>
 
 
@@ -92,8 +92,6 @@
 
 <script>
 
-/*import product from "@/models/product";*/
-
 const user = JSON.parse(localStorage.getItem('user'));
 import api from "@/services/cart.service";
 import {mapGetters, mapState} from 'vuex'
@@ -117,6 +115,7 @@ export default {
     }
   },
 
+
   computed: {
     ...mapState({
       checkoutStatus: state => state.cart.checkoutStatus
@@ -124,8 +123,8 @@ export default {
     ...mapGetters('cart', {
       products: 'cartProducts',
       total: 'cartTotalPrice'
-    }),
 
+    }),
 
     loggedIn: {
       get: function () {
@@ -141,10 +140,6 @@ export default {
         return this.products.length === 0;
       }
     }
-
-
-
-// loggedIn: Boolean(this.$store.state.auth.user)
   },
 
   methods: {
@@ -161,11 +156,9 @@ export default {
 
     logIn() {
       this.$router.push('/login');
-
     },
 
     submit() {
-      /*this.$store.dispatch('auth/login');*/
       this.$router.push('/order/new');
       this.pushCartToServer();
     },
@@ -190,25 +183,7 @@ export default {
       })
       this.pushCartToServer();
     }
-
-
   },
-
-  /*  mounted: async function() {
-      if (user) {
-        const data = await api.getCart();
-        const cartFromServer = data.cart;
-        console.log('Receive cart from server: ', cartFromServer)
-
-        if (cartFromServer && cartFromServer.length > 0) {
-          await this.$store.dispatch('cart/setCartItems', {
-            items: cartFromServer,
-          });
-        } else {
-          await this.pushCartToServer();
-        }
-      }
-    }*/
 
 }
 

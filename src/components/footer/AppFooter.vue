@@ -1,18 +1,15 @@
 <template>
   <v-card tile elevation="4" >
-      <v-footer class="green lighten-2"
+      <v-footer class="success"
           padless
       >
 
-    <!--    <img
-
-            :src="require('@/assets/footerback.png')"
-        />-->
-        <v-container class="py-0 fill-height justify-center">
+        <v-container class="py-0 fill-height justify-center" fluid>
           <v-card
+
               flat
               tile
-              class="green lighten-2 white--text text-center "
+              class="success white--text text-center "
 
           >
 
