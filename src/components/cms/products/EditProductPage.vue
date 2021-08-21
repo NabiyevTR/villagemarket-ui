@@ -38,12 +38,10 @@
                 label="available for sale"
                 color="success">
             </v-checkbox>
-
             <v-sheet
                 outlined
                 rounded
-                class="pa-4"
-            >
+                class="pa-4"            >
               <p class="font-weight-black">
                 Categories
               </p>
@@ -54,12 +52,9 @@
                     :label="category"
                     :value="category.toLowerCase()"
                     v-model="editedProduct.categories">
-
                 </v-checkbox>
               </div>
             </v-sheet>
-
-
           </v-col>
           <v-col cols="6" class="pa-8">
             <v-textarea label="description" v-model="editedProduct.description">
@@ -84,10 +79,9 @@
       </v-form>
     </v-card-text>
   </v-card>
-
-
 </template>
 <script>
+
 import api from "@/services/cms.product.service";
 import router from "@/router";
 
@@ -130,10 +124,9 @@ export default {
         imgLink: this.editedProduct.imgLink,
         availableForSale: this.editedProduct.availableForSale,
       };
-      await console.debug('Sending update request: ', requestData)
-      const data = await api.updateProduct(requestData);
+      const response = await api.updateProduct(requestData);
 
-      if (data == 200) {
+      if (!response.error) {
         this.updateResponseError = false;
         await router.push({name: "CMSProductsPage"});
       } else {
@@ -150,7 +143,6 @@ export default {
   },
   mounted() {
     this.readProduct(this.productId)
-
   },
 };
 </script>

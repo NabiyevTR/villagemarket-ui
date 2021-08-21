@@ -118,7 +118,6 @@ export default {
   methods: {
     readCustomer: async function () {
       const response = await api.readCustomer(this.customerId)
-      console.debug('Get customer from server: ', response);
 
       const currencyFormatter = new Intl.NumberFormat('en-US', {
         style: 'currency',

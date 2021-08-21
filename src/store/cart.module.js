@@ -8,20 +8,6 @@ const cartFromLocalStorage = localStorage.getItem('cart')
     ? JSON.parse(localStorage.getItem('cart'))
     : [];
 
-/*
-    () => {
-    let cart = JSON.parse(localStorage.getItem('cart'));
-    console.debug(cart);
-    if (cart === undefined) {
-        cart = [];
-        localStorage.setItem('cart', JSON.stringify(cart));
-        return cart;
-    } else {
-        return cart;
-    }
-}*/
-
-
 const user = JSON.parse(localStorage.getItem('user'));
 
 const state =
@@ -43,10 +29,8 @@ const getters = {
         try {
             state.items = JSON.parse(localStorage.getItem('cart'));
         } catch (e) {
-            console.error(e);
             state.items = [];
             localStorage.setItem('cart', JSON.stringify(state.items));
-
         }
         return state.items;
     },
@@ -59,9 +43,13 @@ const getters = {
             totalPrice = 0;
         }
 
-        totalPrice = getters.cartProducts.reduce((total, product) => {
-            return total + product.price * product.quantity
-        }, 0)
+        try {
+            totalPrice = getters.cartProducts.reduce((total, product) => {
+                return total + product.price * product.quantity
+            }, 0)
+        } catch (e) {
+            totalPrice = 0;
+        }
 
         const formatter = new Intl.NumberFormat('en-US', {
             style: 'currency',
@@ -261,10 +249,7 @@ const mutations = {
         state.items = items
         console.debug('Saving cart to store: ', items)
     },
-
-
 }
-
 
 export default {
     namespaced: true,
@@ -272,6 +257,5 @@ export default {
     getters,
     actions,
     mutations,
-
 }
 

@@ -6,29 +6,22 @@
             cycle
             height="600"
             hide-delimiter-background
-            show-arrows-on-hover
-        >
+            show-arrows-on-hover        >
           <v-carousel-item
               v-for="(item,i) in items"
               :key="i"
               :src="item.src"
-              reverse-transition="fade-transition"
-
-          >
+              reverse-transition="fade-transition"          >
             <v-row
                 class="fill-height"
                 align="center"
-                justify="center"
-            >
+                justify="center"           >
               <div class="caruselInfo">
                 {{ item.text }}
               </div>
             </v-row>
-
-
           </v-carousel-item>
         </v-carousel>
-
         <v-sheet align="center" class="grey lighten-5 ma-7">
           <v-btn
               class="success"
@@ -36,19 +29,12 @@
             Start shopping
           </v-btn>
         </v-sheet>
-
       </v-col>
-
     </v-row>
   </v-container>
-
-
-
 </template>
-
-
-
 <script>
+
 export default {
   name: "HomePage",
 
@@ -83,7 +69,5 @@ export default {
   color: white;
   font-size: 90px;
   font-weight: bold;
-
-
 }
 </style>

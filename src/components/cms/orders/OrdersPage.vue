@@ -29,19 +29,14 @@
             item-key="name"
             class="elevation-0"
             :search="search"
-            @click:row="handleClick"
             @dblclick:row="handleDoubleClick">
           <template v-slot:top>
-
             <v-text-field
                 v-model="search"
                 label="Search"
                 class="mx-3"
-
             ></v-text-field>
           </template>
-
-
         </v-data-table>
       </v-card-text>
     </v-card>
@@ -60,9 +55,9 @@ export default {
       orders: [],
       search: '',
       onlyActiveOrders: true,
-
     }
   },
+
   computed: {
     headers() {
       return [
@@ -75,9 +70,8 @@ export default {
 
       ]
     },
-
-
   },
+
   methods: {
     readOrders: async function () {
       try {
@@ -92,7 +86,6 @@ export default {
           currency: 'USD',
         });
 
-        console.debug("Orders from server: ", data);
         this.orders = data.map((item) => {
           return {
             id: item.id,
@@ -113,23 +106,13 @@ export default {
       return date.toLocaleString("ru-RU");
     },
 
-    handleClick(item) {
-      console.debug('Row selected: ', item);
-    },
-
     handleDoubleClick(event, {item}) {
-      console.debug('Row selected: ', item);
       this.$router.push({name: 'CMSOrderPage', params: {orderId: item.id}})
-
     },
-
-
   },
 
   mounted() {
-
     this.readOrders();
-
   }
 }
 </script>

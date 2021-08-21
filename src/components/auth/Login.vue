@@ -127,13 +127,18 @@ export default {
         this.loading = false;
         return;
       }
-
       if (this.user.username && this.user.password) {
         this.$store.dispatch('auth/login', this.user).then(
             () => {
               this.loginError = localStorage.getItem('user') === null
               if (!this.loginError) {
-                this.$router.push('/');
+
+                try{
+                  this.$router.push(localStorage.getItem('targetPage'));
+                  localStorage.setItem('targetPage', '/');
+                } catch (e) {
+                  this.$router.push('/');
+                }
               } else {
                 this.user.username = "";
                 this.user.password = "";
@@ -151,8 +156,6 @@ export default {
       }
     }
   },
-
-
 };
 </script>
 

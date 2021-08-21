@@ -169,9 +169,7 @@ export default {
 
     createUser: async function () {
       this.user.active = true;
-      console.debug('Sending user reg data to server: ', this.user)
-      const response = await api.registerUser(this.user)
-      await console.debug('Server reg response: ', response)
+      const response =   await api.registerUser(this.user)
 
       if (!response.error) {
         this.responseError = false;

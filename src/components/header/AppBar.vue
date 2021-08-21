@@ -2,24 +2,19 @@
   <v-app-bar app color="white" flat min-width="1000" elevation="4">
 
     <v-container class="py-0 fill-height" max-width="1200">
-
       <v-btn to="/" text>Home</v-btn>
       <template >
        <ShopMenu></ShopMenu>
       </template>
       <v-btn to="/about" text>About Us</v-btn>
       <v-btn to="/contacts" text>Contact Us</v-btn>
-
       <template v-if="isManager || isSuperAdmin">
         <ManagerMenu></ManagerMenu>
       </template>
-
       <template v-if="isAdmin || isSuperAdmin">
         <AdminMenu></AdminMenu>
       </template>
-
       <v-spacer></v-spacer>
-
       <!-- Profile -->
       <v-btn
           class="mx-2"
@@ -28,15 +23,12 @@
           small
           color="green darken-2"
           v-show=loggedIn
-          to="/profile"
-      >
+          to="/profile"      >
         <v-icon
-            color="white"
-        >
+            color="white"        >
           {{ this.icons.mdiAccountCowboyHat }}
         </v-icon>
       </v-btn>
-
       <!--   Cart-->
       <v-badge
           :value="!cartIsEmpty"
@@ -45,20 +37,16 @@
           color="pink accent-4"
           dot
           offset-x="18"
-          offset-y="10"
-      >
+          offset-y="10"      >
         <v-btn
             class="mx-2"
             fab
             dark
             small
             color="green darken-2"
-            to="/cart"
-        >
+            to="/cart"        >
           <v-icon
-
-              color="white"
-          >
+              color="white"          >
             {{ this.icons.mdiCart }}
           </v-icon>
         </v-btn>
@@ -73,8 +61,7 @@
           small
           color="green darken-2"
           v-show=!loggedIn
-          @click="logIn"
-      >
+          @click="logIn"      >
         <v-icon color="white">
           {{ this.icons.mdiLoginVariant }}
         </v-icon>
@@ -88,13 +75,11 @@
           dark
           small
           color="green darken-2"
-          v-show=loggedIn @click="logOut"
-      >
+          v-show=loggedIn @click="logOut"      >
         <v-icon color="white">
           {{ this.icons.mdiLogoutVariant }}
         </v-icon>
       </v-btn>
-
     </v-container>
   </v-app-bar>
 </template>
@@ -174,16 +159,13 @@ export default {
     }
   },
 
-
   methods: {
     logOut() {
       this.$store.dispatch('auth/logout');
       this.$router.push('/login');
-
     },
     logIn() {
       this.$router.push('/login');
-
     }
   }
 }

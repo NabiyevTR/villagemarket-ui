@@ -145,7 +145,10 @@ export default {
   methods: {
 
     pushCartToServer: async function () {
+
+      console.debug(user)
       if (user) {
+        console.debug('Update cart request: ', this.products);
         await api.updateCart(this.products);
       }
     },
@@ -155,6 +158,7 @@ export default {
     },
 
     logIn() {
+      localStorage.setItem('targetPage', '/cart')
       this.$router.push('/login');
     },
 
@@ -184,6 +188,10 @@ export default {
       this.pushCartToServer();
     }
   },
+
+  mounted() {
+    this.pushCartToServer();
+  }
 
 }
 

@@ -106,6 +106,12 @@ const routes = [
         meta: {title: 'Profile - VillageMarket'}
     },
 
+    {
+        path: '/profile/edit',
+        name: 'EditUserProfilePage',
+        component: () => import('../components/profile/EditUserProfilePage'),
+        meta: {title: 'Edit profile - VillageMarket'}
+    },
 
     //CMS Products
     {
@@ -124,11 +130,19 @@ const routes = [
     },
 
     {
+        path: '/cms/product/:productId',
+        name: 'CMSProductPage',
+        component: () => import('../components/cms/products/ProductPage'),
+        props: true,
+        meta: { title: 'Product - VillageMarket' }
+    },
+
+    {
         path: '/cms/product/:productId/edit',
         name: 'CMSEditProductPage',
         component: () => import('../components/cms/products/EditProductPage'),
         props: true,
-        meta: { title: 'Product - VillageMarket' }
+        meta: { title: 'Edit product - VillageMarket' }
     },
 
     //CMS Customers
@@ -206,15 +220,6 @@ const router = new VueRouter({
     },
 })
 
-/*const DEFAULT_TITLE = 'Some Default Title';
-router.afterEach((to, from) => {
-    // Use next tick to handle router history correctly
-    // see: https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609
-    Vue.nextTick(() => {
-        document.title = to.meta.title || DEFAULT_TITLE;
-    });
-});*/
-
 router.beforeEach((to, from, next) => {
 
     const publicPages = [
@@ -236,9 +241,12 @@ router.beforeEach((to, from, next) => {
     document.title = to.meta.title || 'VillageMarket';
 
     if (authRequired && !loggedIn) {
+        localStorage.setItem("targetPage", to.path)
         return next('/login');
     }
+
     next();
+
 })
 
 

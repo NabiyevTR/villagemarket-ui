@@ -3,6 +3,19 @@
     <v-card>
       <v-card-title>
         Profile
+        <v-spacer/>
+        <v-btn
+            class="mx-2"
+            fab
+            dark
+            small
+            color="green darken-2"
+            to="/profile/edit">
+          <v-icon
+              color="white">
+            {{ this.icons.mdiAccountEdit }}
+          </v-icon>
+        </v-btn>
       </v-card-title>
       <v-card-text>
         <v-row>
@@ -41,10 +54,10 @@
                       <td> Address</td>
                       <td>{{ user.address }}</td>
                     </tr>
-                <!--    <tr>
-                      <td> Reg date</td>
-                      <td>{{ user.regDate }}</td>
-                    </tr>-->
+                    <!--    <tr>
+                          <td> Reg date</td>
+                          <td>{{ user.regDate }}</td>
+                        </tr>-->
                     <tr>
                       <td> Birth date</td>
                       <td>{{ user.birthDate }}</td>
@@ -60,17 +73,13 @@
               <v-card-title>Orders</v-card-title>
               <v-card-text>
                 <v-data-table
-
                     :headers="headers"
                     :items="user.orders"
                     :single-expand="singleExpand"
                     :expanded.sync="expanded"
                     item-key="id"
                     show-expand
-                    class="elevation-0"
-                >
-
-
+                    class="elevation-0">
                   <template v-slot:expanded-item="{ headers, item }">
                     <td :colspan="headers.length">
                       <v-container>
@@ -92,8 +101,7 @@
                             <tbody>
                             <tr
                                 v-for="product in item.products"
-                                :key="product.name"
-                            >
+                                :key="product.name">
                               <td>{{ product.name }}</td>
                               <td>${{ product.price }}</td>
                               <td>{{ product.quantity }} ps</td>
@@ -102,8 +110,6 @@
                           </template>
                         </v-simple-table>
                       </v-container>
-
-
                     </td>
                   </template>
                 </v-data-table>
@@ -111,16 +117,16 @@
             </v-card>
           </v-col>
         </v-row>
-
-
       </v-card-text>
     </v-card>
   </v-container>
 </template>
-
 <script>
 
 import api from "@/services/user.service";
+import {
+  mdiAccountEdit
+} from '@mdi/js'
 
 export default {
   name: "UserProfilePage",
@@ -130,15 +136,16 @@ export default {
       user: '',
       singleExpand: false,
       expanded: [],
-
+      icons: {
+        mdiAccountEdit
+      }
     }
-
   },
 
   methods: {
     readUserProfile: async function () {
+
       const response = await api.readUserProfile();
-      console.debug('Get userprofile from server: ', response)
 
       const currencyFormatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -152,13 +159,11 @@ export default {
         hour: 'numeric',
         minute: 'numeric'
       });
-      this.user = response;
 
+      this.user = response;
       this.user.firstName = this.user.firstName == null || this.user.firstName === "" ? "-" : this.user.firstName;
       this.user.lastName = this.user.lastName == null || this.user.lastName === "" ? "-" : this.user.lastName;
       this.user.address = this.user.address == null || this.user.address === "" ? "-" : this.user.address;
-
-
       this.user.regDate = new Date(this.user.regDate).toLocaleDateString("ru-RU");
 
       if (this.user.birthDate == null) {
