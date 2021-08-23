@@ -2,32 +2,29 @@
   <v-menu
       open-on-hover
       bottom
-      offset-y
-  >
+      offset-y>
     <template v-slot:activator="{ on, attrs }">
       <v-btn
           v-bind="attrs"
           v-on="on"
           color="blue darken-4"
           text
-          class=""
-      >
+          class="">
         Manager
       </v-btn>
     </template>
-
     <v-list>
       <v-list-item
           v-for="(item, index) in items"
           :key="index"
-          :to="item.link"
-      >
+          :to="item.link">
         {{ item.title }}
       </v-list-item>
     </v-list>
   </v-menu>
 </template>
 <script>
+
 export default {
   name: 'MangerMenu',
   data: () => ({

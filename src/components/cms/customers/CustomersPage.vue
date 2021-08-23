@@ -18,7 +18,6 @@
             item-key="name"
             class="elevation-0"
             :search="search"
-            @click:row="handleClick"
             @dblclick:row="handleDoubleClick"
         >
           <template v-slot:top>
@@ -51,7 +50,6 @@ export default {
       alert: true,
       customers: [],
       search: '',
-
     }
   },
   computed: {
@@ -65,9 +63,8 @@ export default {
         {text: 'Total price', value: 'totalPrice'},
       ]
     },
-
-
   },
+
   methods: {
     readCustomers: async function () {
       try {
@@ -78,7 +75,6 @@ export default {
           currency: 'USD',
         });
 
-        console.debug("Customers from server: ", data);
         this.customers = data.map((item) => {
           return {
             id: item.id,
@@ -97,15 +93,9 @@ export default {
     convertDateTime: function (orderDate) {
       let date = new Date(orderDate);
       return date.toLocaleString("ru-RU");
-
-    },
-
-    handleClick(item) {
-      console.debug('Row selected: ', item);
     },
 
     handleDoubleClick(event, {item}) {
-      console.debug('Row selected: ', item);
       this.$router.push({name: 'CMSCustomerPage', params: {customerId: item.id}})
     },
   },

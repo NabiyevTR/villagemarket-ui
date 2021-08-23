@@ -35,36 +35,30 @@
                 v-model="product.availableForSale"
                 label="available for sale"
                 color="success">
-
             </v-checkbox>
-
             <v-sheet
                 outlined
                 rounded
-                class="pa-4"
-            >
+                class="pa-4">
               <p class="font-weight-black">
                 Categories
               </p>
-              <div v-for="(category,index) in this.allCategories" :key="index" >
+              <div v-for="(category,index) in this.allCategories" :key="index">
                 <v-checkbox
                     color="success"
                     light
                     :label="category"
                     :value="category.toLowerCase()"
                     v-model="product.categories">
-
                 </v-checkbox>
               </div>
             </v-sheet>
-
           </v-col>
           <v-col cols="6" class="pa-8">
             <v-textarea
                 label="description"
                 v-model="product.description">
             </v-textarea>
-
           </v-col>
         </v-row>
         <v-container>
@@ -82,13 +76,12 @@
             </v-btn>
           </v-sheet>
         </v-container>
-
-
       </v-form>
     </v-card-text>
   </v-card>
 </template>
 <script>
+
 import api from "@/services/cms.product.service";
 import router from "@/router";
 
@@ -108,13 +101,13 @@ export default {
         description: "",
         imgLink: "",
       },
+
       addResponseError: false,
       valid: true,
     };
   },
 
   methods: {
-
     createProduct: async function () {
       const requestData = {
         id: this.product.id,
@@ -124,12 +117,9 @@ export default {
         imgLink: this.product.imgLink
       };
 
-      console.debug('New product request to server: ', requestData)
-
       const response = await api.createProduct(requestData);
 
-      // TODO handle error
-      if (response == 200) {
+      if (!response.error) {
         this.addResponseError = false;
         await router.push({name: "CMSProductsPage"});
       } else {

@@ -1,6 +1,5 @@
 <template>
   <v-container>
-
     <v-card flat class="grey lighten-5">
       <!--  <v-card-title>Products</v-card-title>-->
       <v-card-text>
@@ -10,16 +9,12 @@
               <product-card v-bind:product="product">
               </product-card>
             </v-flex>
-
           </v-layout>
-
         </v-flex>
       </v-card-text>
     </v-card>
-
   </v-container>
 </template>
-
 <script>
 import api from "@/services/product.service";
 import ProductCard from "@/components/shop/ProductCard";
@@ -32,7 +27,6 @@ export default {
   data() {
     return {
       products: [],
-
     };
   },
 
@@ -40,7 +34,6 @@ export default {
     '$route.params': {
       handler() {
         this.readProducts();
-
       },
       immediate: true,
     },
@@ -55,15 +48,12 @@ export default {
       } else {
         data = await api.readProductsWithCategory(this.category);
       }
-
       this.products = data.map(e => e);
-      console.debug("Products from server: ", data);
     },
   },
 
   mounted() {
     this.readProducts();
   },
-
 };
 </script>

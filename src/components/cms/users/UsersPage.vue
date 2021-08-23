@@ -21,23 +21,16 @@
         </v-row>
         <v-row>
           <v-col>
-
-
             <v-data-table
-
                 :headers="headers"
                 :items="users"
                 sort-by="id"
                 class="elevation-0"
                 :search="search"
-
                 :single-expand="singleExpand"
                 :expanded.sync="expanded"
                 item-key="username"
-                show-expand
-
-
-            >
+                show-expand            >
               <template v-slot:top>
                 <v-text-field
                     v-model="search"
@@ -45,27 +38,22 @@
                     class="mx-4"
                 ></v-text-field>
               </template>
-
-
               <template v-slot:item.active="{ item }">
                 <v-simple-checkbox
                     v-model="item.active"
                     disabled
                 ></v-simple-checkbox>
               </template>
-
               <template v-slot:item.actions="{ item }">
                 <v-icon
                     small
                     class="mr-2"
-                    @click="editUser(item.id)"
-                >
+                    @click="editUser(item.id)"                >
                   mdi-pencil
                 </v-icon>
                 <v-icon
                     small
-                    @click="removeUser(item.id)"
-                >
+                    @click="removeUser(item.id)"                >
                   mdi-delete
                 </v-icon>
               </template>
@@ -102,7 +90,6 @@
                               <td>{{ item.birthDate }}</td>
                             </tr>
                             </tbody>
-
                           </template>
                         </v-simple-table>
                       </v-col>
@@ -118,7 +105,6 @@
                               <td>Phone number</td>
                               <td>{{ item.phoneNumber }}</td>
                             </tr>
-
                             <tr>
                               <td>Address</td>
                               <td>{{ item.address }}</td>
@@ -128,19 +114,14 @@
                               <td>{{ item.roles }}</td>
                             </tr>
                             </tbody>
-
                           </template>
                         </v-simple-table>
                       </v-col>
                     </v-row>
-
                   </v-container>
                 </td>
-
               </template>
-
             </v-data-table>
-
           </v-col>
         </v-row>
       </v-card-text>
@@ -179,7 +160,6 @@ export default {
     readUsers: async function () {
 
       const data = await api.readUsers();
-      await console.debug('Get users from server: ', this.users)
       this.users = data.map(user => {
 
         user.firstName = user.firstName == null || user.firstName ==="" ? "-" : user.firstName;
@@ -211,7 +191,6 @@ export default {
 
     removeUser: async function (userId) {
 
-      console.debug("Sending request for user delete with id: ", userId)
       const response = await api.deleteUser(userId);
 
       if (response.error === undefined) {

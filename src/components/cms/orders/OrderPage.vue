@@ -3,6 +3,7 @@
     <v-card-title>Order №{{ orderId }}</v-card-title>
     <v-card-text>
 
+
       <v-row>
         <v-col cols="6">
           <v-simple-table>
@@ -159,7 +160,6 @@ export default {
       },
 
 
-
       newStatus: "",
 
       statusItems: [
@@ -183,7 +183,6 @@ export default {
   methods: {
     readOrder: async function () {
       const data = await api.readOrder(this.orderId);
-      console.debug('Get order from server: ', data);
 
       const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -212,13 +211,7 @@ export default {
         status: this.newStatus
       }
 
-      console.log('Sending request to server for status update: ', request);
-
       const response = await api.updateOrderStatus(this.order.id, request);
-
-      console.log('Response from server for status update: ', response);
-
-
       this.order.status = response.status;
       this.order.history = response.history;
       this.isStatusChanged = this.order.status !== this.newStatus;
