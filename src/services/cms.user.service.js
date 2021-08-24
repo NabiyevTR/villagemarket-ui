@@ -12,7 +12,7 @@ const apiUserClient = {
                     return error.response;
                 }
             })
-        console.log('Get users: ', response);
+        console.log('Get users: ', response.data);
         return response.data;
     },
 
@@ -37,7 +37,7 @@ const apiUserClient = {
                     return error.response;
                 }
             });
-        console.log('Get user: ', response);
+        console.log('Get user: ', response.data);
         return response.data;
     },
 

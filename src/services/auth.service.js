@@ -13,7 +13,7 @@ class AuthService {
 
             })
             .then(response => {
-                console.debug('Login response: ', response)
+                console.debug('Login response: ', response.data)
                if (response.data.accessToken) {
                     localStorage.setItem('user', JSON.stringify(response.data));
                     store.dispatch('cart/loadCart')
@@ -21,7 +21,7 @@ class AuthService {
                 }
                 return response.data;
             }).catch(response => {
-                console.debug('Login response(error): ', response)
+                console.debug('Login response(error): ', response.data)
                 return response.data;
 
             })

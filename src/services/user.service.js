@@ -12,7 +12,7 @@ const apiUserProfileClient = {
                     return error.response;
                 }
             })
-        await console.log('Get user profile: ', response);
+        await console.log('Get user profile: ', response.data);
         return response.data;
     },
 
