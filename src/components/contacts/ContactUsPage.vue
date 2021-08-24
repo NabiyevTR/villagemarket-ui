@@ -4,8 +4,9 @@
       <v-card-title>Contact us</v-card-title>
       <v-card-text >
         <v-img
+            class="mr-4"
             style="float:right"
-            max-width="700px"
+            max-width="600px"
             src="http://bimel.ru/content/vm/website/contacts/map2.png">
         </v-img>
         <p><span class="font-weight-black">Address:</span> 400 Main St, Winifred, Montana, USA</p>

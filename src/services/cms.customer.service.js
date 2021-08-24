@@ -12,7 +12,7 @@ const apiCustomerClient = {
                     return error.response;
                 }
             });
-        console.log('Get customers: ', response);
+        console.log('Get customers: ', response.data);
         return response.data;
     },
 
@@ -25,7 +25,7 @@ const apiCustomerClient = {
                     return error.response;
                 }
             })
-        console.log('Get customer: ', response);
+        console.log('Get customer: ', response.data);
         return response.data;
     },
 };

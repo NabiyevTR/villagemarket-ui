@@ -12,7 +12,7 @@ const apiOrderClient = {
                     return error.response;
                 }
             });
-        console.log('Get orders: ', response)
+        console.log('Get orders: ', response.data)
         return response.data;
     },
 
@@ -25,7 +25,7 @@ const apiOrderClient = {
                     return error.response;
                 }
             })
-        console.log('Get active orders: ', response)
+        console.log('Get active orders: ', response.data)
         return response.data;
     },
 
@@ -50,7 +50,7 @@ const apiOrderClient = {
                     return error.response;
                 }
             });
-        console.log('Get order: ', response)
+        console.log('Get order: ', response.data)
         return response.data;
     },
 

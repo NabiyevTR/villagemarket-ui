@@ -12,7 +12,7 @@ const apiCartClient = {
                     return error.response;
                 }
             });
-        console.log('Get cart: ', response);
+        console.log('Get cart: ', response.data);
         return response.data;
     },
 

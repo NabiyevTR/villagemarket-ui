@@ -12,7 +12,7 @@ const apiProductClient = {
                     return error.response;
                 }
             });
-        console.log('Get products: ', response);
+        console.log('Get products: ', response.data);
         return response.data;
     },
 
@@ -25,7 +25,7 @@ const apiProductClient = {
                     return error.response;
                 }
             });
-        console.log('Get available products: ', response);
+        console.log('Get available products: ', response.data);
         return response.data;
     },
 
@@ -50,7 +50,7 @@ const apiProductClient = {
                     return error.response;
                 }
             });
-        console.log('Get product: ', response);
+        console.log('Get product: ', response.data);
         return response.data;
     },
 

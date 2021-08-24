@@ -2,7 +2,6 @@ import axios from "axios";
 
 const apiProductClient = {
 
-
     async readProducts() {
         console.log('Sending get all products request');
         const response = await axios.get("/product")
@@ -12,7 +11,7 @@ const apiProductClient = {
                     return error.response;
                 }
             });
-        console.log('Get products: ', response);
+        console.log('Get products: ', response.data);
         return response.data;
     },
 
@@ -25,7 +24,7 @@ const apiProductClient = {
                     return error.response;
                 }
             });
-        console.log('Get products by category: ', response);
+        console.log('Get products by category: ', response.data);
         return response.data;
     },
 
@@ -38,7 +37,7 @@ const apiProductClient = {
                     return error.response;
                 }
             });
-        console.log('Get product: ', response);
+        console.log('Get product: ', response.data);
         return response.data;
     },
 };

@@ -1,66 +1,68 @@
 <template>
-  <v-card flat elevation="4">
-    <v-card-title>Products
-      <v-spacer></v-spacer>
-      <v-switch flat
-                v-model="availableForSale"
-                label="Only available for sale"
-                color="success"
-                inset
-                @change="readProducts">
-      </v-switch>
-    </v-card-title>
-    <v-card-text>
-      <v-alert
-          v-model="alert"
-          elevation="5"
-          dismissible
-          dense
-          type="info">
-        Double click on row to view product info
-      </v-alert>
-      <v-alert v-if="deleteResponseSuccess" dense text type="success">
-        You have successfully deleted product.
-      </v-alert>
-      <v-alert v-if="deleteResponseError" dense text type="error">
-        Cannot delete product
-      </v-alert>
-      <v-btn
-          color="success"
-          :to="{ name: 'CMSAddProductPage'}">
-        Add product
-      </v-btn>
-      <v-data-table
-          :headers="headers"
-          :items="products"
-          item-key="name"
-          class="elevation-0"
-          :search="search"
-          @dblclick:row="handleDoubleClick">
-        <template v-slot:top>
-          <v-text-field
-              v-model="search"
-              label="Search"
-              class="mx-4"
-          ></v-text-field>
-        </template>
-        <template v-slot:item.availableForSale="{ item }">
-          <v-simple-checkbox
-              v-model="item.availableForSale"
-              disabled
-          ></v-simple-checkbox>
-        </template>
-        <template v-slot:item.actions="{ item }">
-          <v-icon
-              small
-              class="mr-2"
-              @click="editProduct(item.id)">
-            mdi-pencil
-          </v-icon>
-        </template>
-      </v-data-table>
-    </v-card-text>
-  </v-card>
+  <v-container>
+    <v-card flat elevation="4">
+      <v-card-title>Products
+        <v-spacer></v-spacer>
+        <v-switch flat
+                  v-model="availableForSale"
+                  label="Only available for sale"
+                  color="success"
+                  inset
+                  @change="readProducts">
+        </v-switch>
+      </v-card-title>
+      <v-card-text>
+        <v-alert
+            v-model="alert"
+            elevation="5"
+            dismissible
+            dense
+            type="info">
+          Double click on row to view product info
+        </v-alert>
+        <v-alert v-if="deleteResponseSuccess" dense text type="success">
+          You have successfully deleted product.
+        </v-alert>
+        <v-alert v-if="deleteResponseError" dense text type="error">
+          Cannot delete product
+        </v-alert>
+        <v-btn
+            color="success"
+            :to="{ name: 'CMSAddProductPage'}">
+          Add product
+        </v-btn>
+        <v-data-table
+            :headers="headers"
+            :items="products"
+            item-key="name"
+            class="elevation-0"
+            :search="search"
+            @dblclick:row="handleDoubleClick">
+          <template v-slot:top>
+            <v-text-field
+                v-model="search"
+                label="Search"
+                class="mx-4"
+            ></v-text-field>
+          </template>
+          <template v-slot:item.availableForSale="{ item }">
+            <v-simple-checkbox
+                v-model="item.availableForSale"
+                disabled
+            ></v-simple-checkbox>
+          </template>
+          <template v-slot:item.actions="{ item }">
+            <v-icon
+                small
+                class="mr-2"
+                @click="editProduct(item.id)">
+              mdi-pencil
+            </v-icon>
+          </template>
+        </v-data-table>
+      </v-card-text>
+    </v-card>
+  </v-container>
 </template>
 
 <script>
