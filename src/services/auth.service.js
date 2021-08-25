@@ -2,7 +2,8 @@ import axios from "axios";
 import store from "../store"
 import router from "@/router";
 
-const API_URL = 'http://localhost:8080/api/auth/'
+const API_URL = 'https://ntr-village-market.herokuapp.com/api/auth/'
+//const API_URL = 'http://localhost:8080/api/auth/'
 
 class AuthService {
     login(user) {
