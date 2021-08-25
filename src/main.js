@@ -8,7 +8,8 @@ import store from './store';
 import axios from "axios";
 import VueAxios from "vue-axios";
 
-axios.defaults.baseURL = "http://localhost:8080/api"
+axios.defaults.baseURL = process.env.APP_URL
+//axios.defaults.baseURL = "http://localhost:8080/api"
 //axios.defaults.baseURL = "http://192.168.0.15:8080/api"
 
 Vue.config.productionTip = false
