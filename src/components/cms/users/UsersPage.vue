@@ -196,6 +196,7 @@ export default {
       if (response.error === undefined) {
         this.responseError = false;
         this.users = api.readUsers();
+         await this.$router.push({path: '/cms/user'});
       } else {
         this.responseError = true;
         this.responseErrorMessage = response.errorMessage;
