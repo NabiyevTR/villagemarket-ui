@@ -1,54 +1,54 @@
 <template>
+  
+    <v-app id="inspire">
+      <c-app-bar />
 
-  <v-app id="inspire" >
-    <c-app-bar/>
-
-    <!-- Main content -->
-    <v-main class="grey lighten-5">
-
-        <v-container  class="grey lighten-5">
+      <!-- Main content -->
+      <v-main class="grey lighten-5">
+        <v-container class="grey lighten-5">
           <v-row>
             <v-col align="center">
-              <v-sheet min-height="70vh"
-                       rounded="lg"
-                       max-width="1200"
-                       min-width="1000"
-                       align="left"
-                       class="grey lighten-5">
+              <v-sheet
+                min-height="70vh"
+                rounded="lg"
+                max-width="1200"
+                min-width="1000"
+                align="left"
+                class="grey lighten-5"
+              >
                 <!--  -->
                 <router-view></router-view>
               </v-sheet>
             </v-col>
           </v-row>
         </v-container>
-    </v-main>
+      </v-main>
 
-    <c-footer />
-  </v-app>
+      <c-footer />
+    </v-app>
+  
 </template>
 <script>
-
 import CFooter from "@/components/footer/AppFooter";
 import CAppBar from "@/components/header/AppBar";
 
-
 export default {
-  name: 'App',
+  name: "App",
 
-  components: {CAppBar, CFooter},
+  components: { CAppBar, CFooter },
 
   watch: {
-    '$route':{
+    $route: {
       // eslint-disable-next-line no-unused-vars
       handler: (to, from) => {
-        document.title = to.meta.title || 'Your Website'
+        document.title = to.meta.title || "Your Website";
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
 
   data: () => ({
     //
-  })
+  }),
 };
 </script>

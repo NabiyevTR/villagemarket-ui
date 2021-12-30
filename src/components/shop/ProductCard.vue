@@ -22,7 +22,7 @@
           </v-expand-transition>
         </v-img>
       </v-container>
-      <v-card-text class="pt-6" style="position: relative">
+      <v-card-text class="pt-2" style="position: relative">
         <v-btn
           @click="addProductToCart(product)"
           absolute
