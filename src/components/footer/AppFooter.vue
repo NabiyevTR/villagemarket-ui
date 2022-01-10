@@ -1,12 +1,13 @@
 <template>
   <v-card tile elevation="4">
     <v-footer class="success"
-              padless>
+              color="green darken-2">
       <v-container class="py-0 fill-height justify-center" fluid>
         <v-card
             flat
             tile
-            class="success white--text text-center ">
+            class="success white--text text-center"
+            color="green darken-2">
           <v-card-title class="white--text pt-4 justify-center">
             VillageMarket
           </v-card-title>
